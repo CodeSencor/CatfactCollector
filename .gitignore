@@ -1,0 +1,6 @@
+# Rider config
+.idea/
+
+# Build output
+bin/
+obj/
