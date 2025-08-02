@@ -3,7 +3,7 @@
 [![.NET Build, Package and Release](https://github.com/CodeSencor/CatfactCollector/actions/workflows/main.yml/badge.svg)](https://github.com/CodeSencor/CatfactCollector/actions/workflows/main.yml)
 [![Latest Release](https://img.shields.io/github/v/release/CodeSencor/CatfactCollector)](https://github.com/CodeSencor/CatfactCollector/releases/latest)
 
-A simple .NET console application to fetch and display interesting cat facts. This project serves as a demonstration of a cross-platform build and release pipeline using GitHub Actions.
+A .NET console application to fetch and store interesting cat facts. It features a generic host service architecture, file IO, basic logging and error handling.
 
 ## ✨ Features
 
@@ -38,14 +38,14 @@ chmod +x ./CatfactCollector-linux-x64
 
 ### Command-line Arguments
 
-You can customize the application's behavior using the following command-line arguments:
+The application can be configured via an `appsettings.json` file placed in the same directory as the executable. The sample `appsettings.json` can be found [here](https://github.com/CodeSencor/CatfactCollector/blob/master/CatfactCollector/appsettings.json). Alternatively, you can use command-line arguments to override these settings or run the application without `appsettings.json` file alltogether.
 
-| Flag | Alias | Description |
-|---|---|---|
-| `--loglevel` | `-l` | Sets the logging level (e.g., `Information`, `Debug`, `Error`). |
-| `--output` | `-o` | Specifies the path to the output file where cat facts will be saved. |
-| `--endpoint` | `-e` | Sets the URL for the cat fact API. |
-| `--interval`| `-i` | Sets the interval in seconds for fetching new cat facts. |
+| Flag | Alias | Description | Required (if not in `appsettings.json`) |
+|---|---|---|---|
+| `--loglevel` | `-l` | Sets the logging level (e.g., `Information`, `Debug`, `Error`). | No (defaults to Information level) |
+| `--output` | `-o` | Specifies the path to the output file where cat facts will be saved. | Yes |
+| `--endpoint` | `-e` | Sets the URL for the cat fact API. | No (defaults to [https://catfact.ninja/fact](https://catfact.ninja/fact)) |
+| `--interval`| `-i` | Sets the interval in seconds for fetching new cat facts. | No (defaults to 5 seconds) |
 
 **Example:**
 
