@@ -1,0 +1,102 @@
+name: .NET Build, Package and Release
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            runtime: linux-x64
+          - os: windows-latest
+            runtime: win-x64
+          - os: macos-latest
+            runtime: osx-x64
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    - name: Publish
+      run: dotnet publish -c Release --runtime ${{ matrix.runtime }} --self-contained -p:PublishSingleFile=true --output ./publish
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: catfact-collector-${{ matrix.os }}
+        path: ./publish
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Generate version number
+      id: version
+      run: echo "version=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.version.outputs.version }}
+        release_name: Release v${{ steps.version.outputs.version }}
+        body: |
+          Automated release for version ${{ steps.version.outputs.version }}
+        draft: false
+        prerelease: false
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+
+    - name: Upload Release Asset (Linux)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: artifacts/catfact-collector-ubuntu-latest/CatfactCollector
+        asset_name: CatfactCollector-linux-x64
+        asset_content_type: application/octet-stream
+
+    - name: Upload Release Asset (Windows)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: artifacts/catfact-collector-windows-latest/CatfactCollector.exe
+        asset_name: CatfactCollector-win-x64.exe
+        asset_content_type: application/vnd.microsoft.portable-executable
+
+    - name: Upload Release Asset (macOS)
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: artifacts/catfact-collector-macos-latest/CatfactCollector
+        asset_name: CatfactCollector-osx-x64
+        asset_content_type: application/octet-stream
