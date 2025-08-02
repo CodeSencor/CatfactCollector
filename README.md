@@ -3,7 +3,7 @@
 [![.NET Build, Package and Release](https://github.com/CodeSencor/CatfactCollector/actions/workflows/main.yml/badge.svg)](https://github.com/CodeSencor/CatfactCollector/actions/workflows/main.yml)
 [![Latest Release](https://img.shields.io/github/v/release/CodeSencor/CatfactCollector)](https://github.com/CodeSencor/CatfactCollector/releases/latest)
 
-A .NET console application to fetch and store interesting cat facts. It features a generic host service architecture, file IO, basic logging and error handling.
+A .NET console application to fetch and store interesting cat facts. It features a generic host service architecture, file IO, basic logging, error handling and unit testing.
 
 ## ✨ Features
 
@@ -38,25 +38,27 @@ chmod +x ./CatfactCollector-linux-x64
 
 ### Command-line Arguments
 
-The application can be configured via an `appsettings.json` file placed in the same directory as the executable. The sample `appsettings.json` can be found [here](https://github.com/CodeSencor/CatfactCollector/blob/master/CatfactCollector/appsettings.json). Alternatively, you can use command-line arguments to override these settings or run the application without `appsettings.json` file alltogether.
+The application can be configured via an `appsettings.json` file placed in the same directory as the executable. The sample `appsettings.json` can be found [here](https://github.com/CodeSencor/CatfactCollector/blob/master/CatfactCollector/appsettings.json). Alternatively, you can use command-line arguments to override these settings or run the application without an `appsettings.json` file altogether.
 
 | Flag | Alias | Description | Required (if not in `appsettings.json`) |
 |---|---|---|---|
-| `--loglevel` | `-l` | Sets the logging level (e.g., `Information`, `Debug`, `Error`). | No (defaults to Information level) |
+| `--loglevel` | `-l` | Sets the logging level (e.g., `Information`, `Debug`, `Error`). | No (defaults to `Information`) |
 | `--output` | `-o` | Specifies the path to the output file where cat facts will be saved. | Yes |
-| `--endpoint` | `-e` | Sets the URL for the cat fact API. | No (defaults to [https://catfact.ninja/fact](https://catfact.ninja/fact)) |
+| `--endpoint` | `-e` | Sets the base URL for the cat fact API. | No (defaults to `https://catfact.ninja/`) |
+| `--path` | `-p` | Sets the relative path for the API endpoint. | No (defaults to `fact`) |
+| `--timeout` | `-t` | Sets the HTTP request timeout in seconds. | No (defaults to 5 seconds) |
 | `--interval`| `-i` | Sets the interval in seconds for fetching new cat facts. | No (defaults to 5 seconds) |
 
 **Example:**
 
-Run the application with a 10-second interval, debug logging, and save the facts to a custom file named `my-cat-facts.txt`.
+Run the application with a 10-second interval, a 15-second timeout, a custom API path, debug logging, and save the facts to a custom file named `my-cat-facts.txt`.
 
 ```bash
 # For Linux/macOS
-./CatfactCollector-linux-x64 --interval 10 --output my-cat-facts.txt --loglevel Debug
+./CatfactCollector-linux-x64 --interval 10 --output my-cat-facts.txt --loglevel Debug --timeout 15 --path "facts"
 
 # For Windows
-./CatfactCollector-win-x64.exe --interval 10 --output my-cat-facts.txt --loglevel Debug
+./CatfactCollector-win-x64.exe --interval 10 --output my-cat-facts.txt --loglevel Debug --timeout 15 --path "facts"
 ```
 
 ## 🛠️ Building from Source

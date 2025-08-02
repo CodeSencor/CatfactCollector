@@ -1,6 +1,8 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CatfactCollector.Configuration;
 
 public class FileWriterOptions
 {
-    public required string OutputPath { get; set; }
+    [Required] public required string OutputPath { get; set; }
 }
