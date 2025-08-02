@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatfactCollector", "CatfactCollector\CatfactCollector.csproj", "{CB6B163C-DFE8-46EC-8F92-547A9090955B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatfactCollector.Tests", "CatfactCollector.Tests\CatfactCollector.Tests.csproj", "{B6B86738-27FE-472F-93F5-7204955068D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{CB6B163C-DFE8-46EC-8F92-547A9090955B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB6B163C-DFE8-46EC-8F92-547A9090955B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB6B163C-DFE8-46EC-8F92-547A9090955B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B86738-27FE-472F-93F5-7204955068D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B86738-27FE-472F-93F5-7204955068D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B86738-27FE-472F-93F5-7204955068D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B86738-27FE-472F-93F5-7204955068D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

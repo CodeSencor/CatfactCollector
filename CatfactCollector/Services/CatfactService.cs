@@ -10,17 +10,18 @@ namespace CatfactCollector.Services;
 
 public class CatfactService(HttpClient client, IOptions<CatfactServiceOptions> opts, ILogger<CatfactService> logger) : ICatfactService
 {
-    private readonly string _endpointUrl = opts.Value.EndpointUrl;
+    private readonly string _baseUrl = opts.Value.BaseUrl;
+    private readonly string _relativePath = opts.Value.RelativePath;
     public async Task<string> GetCatfactAsync()
     {
-        logger.LogInformation($"Fetching cat fact from {_endpointUrl}");
+        logger.LogInformation($"Fetching cat fact from {_baseUrl}{_relativePath}");
 
         try
         {
-            var response = await client.GetFromJsonAsync<CatfactDto>(_endpointUrl);
+            var response = await client.GetFromJsonAsync<CatfactDto>(_relativePath);
             if (response?.fact == null)
             {
-                logger.LogWarning($"Received null or empty fact from {_endpointUrl}");
+                logger.LogWarning($"Received null or empty fact from {_baseUrl}{_relativePath}");
                 throw new JsonException("Fact not present or null");
             }
 
@@ -29,7 +30,7 @@ public class CatfactService(HttpClient client, IOptions<CatfactServiceOptions> o
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, $"An error occurred while fetching cat fact from {_endpointUrl}");
+            logger.LogError(ex, $"An error occurred while fetching cat fact from {_baseUrl}{_relativePath}");
             throw;
         }
     }
