@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using CatfactCollector.Configuration;
+﻿using CatfactCollector.Configuration;
 using CatfactCollector.HostedServices;
 using CatfactCollector.Interfaces;
 using CatfactCollector.Services;
@@ -18,14 +17,23 @@ class Program
         
         builder.ConfigureAppConfiguration(config =>
         {
-            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
+            config.AddJsonFile("appsettingsx.json", optional: true, reloadOnChange: false);
             config.AddCommandLine(source =>
             {
                 source.Args = args;
                 source.SwitchMappings = new Dictionary<string, string>()
                 {
                     { "-l", "Logging:LogLevel:Default" },
-                    { "--loglevel", "Logging:LogLevel:Default" }
+                    { "--loglevel", "Logging:LogLevel:Default" },
+        
+                    { "-o", "FileWriter:OutputPath" },
+                    { "--output", "FileWriter:OutputPath" },
+        
+                    { "-e", "CatfactService:EndpointUrl" },
+                    { "--endpoint", "CatfactService:EndpointUrl" },
+        
+                    { "-i", "CatfactWorker:IntervalSeconds" },
+                    { "--interval", "CatfactWorker:IntervalSeconds" }
                 };
             });
         });
@@ -33,9 +41,7 @@ class Program
         builder.ConfigureLogging((context, logging) =>
         {
             logging.ClearProviders();
-            
             logging.AddConfiguration(context.Configuration.GetSection("Logging"));
-            
             logging.AddConsole();
         });
         
