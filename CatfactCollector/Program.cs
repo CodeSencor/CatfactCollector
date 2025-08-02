@@ -17,7 +17,7 @@ class Program
         
         builder.ConfigureAppConfiguration(config =>
         {
-            config.AddJsonFile("appsettingsx.json", optional: true, reloadOnChange: false);
+            config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
             config.AddCommandLine(source =>
             {
                 source.Args = args;
