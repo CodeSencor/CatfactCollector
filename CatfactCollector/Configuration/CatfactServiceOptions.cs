@@ -2,5 +2,5 @@ namespace CatfactCollector.Configuration;
 
 public class CatfactServiceOptions
 {
-    public string EndpointUrl { get; set; }
+    public required string EndpointUrl { get; set; }
 }

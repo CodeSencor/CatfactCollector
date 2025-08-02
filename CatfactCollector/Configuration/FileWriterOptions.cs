@@ -2,5 +2,5 @@ namespace CatfactCollector.Configuration;
 
 public class FileWriterOptions
 {
-    public string OutputPath { get; set; }
+    public required string OutputPath { get; set; }
 }
